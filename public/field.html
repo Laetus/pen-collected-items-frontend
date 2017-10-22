@@ -241,15 +241,47 @@
         <li class="breadcrumb-item">
           <a href="#">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">Navbar</li>
+        <li class="breadcrumb-item active">Single Field</li>
       </ol>
-      <h1>Navbar</h1>
-      <hr>
-      <p>The SB Admin navbar can be either fixed or static, and it supports the navbar-light and navbar-dark Bootstrap 4 classes.</p>
-      <a class="btn btn-primary" href="#" id="toggleNavPosition">Toggle Fixed/Static Navbar</a>
-      <a class="btn btn-primary" href="#" id="toggleNavColor">Toggle Navbar Color</a>
-      <!-- Blank div to give the page height to preview the fixed vs. static navbar-->
-      <div style="height: 1000px;"></div>
+
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-question-circle-o"></i> Query by Location and Time Range</div>
+        <div class="card-body form-group">
+          <form id="query-field-location-range">
+            <label for="x">
+              X:
+              <input class="form-control" id="field-location-x" type="number" min="0" max="200" value="175" required>
+            </label>
+            <label for="x">
+              Y:
+              <input class="form-control" id="field-location-y" type="number" min="0" max="100" value="75" required>
+            </label>
+            <label for="from">
+              Start:
+              <input class="form-control" type="date" id="query-range-from" value="2014-10-25" required>
+            </label>
+            <label for="to">
+              End:
+              <input class="form-control" type="date" id="query-range-to">
+            </label>
+            <button type="button" class="btn btn-primary" id="queryFieldByLocationAndRange">Send</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="card mb-3" id="result-analysis1" style="display:none">
+        <div class="card-header">
+          <i class="fa fa-line-chart"></i> Visitors per Day</div>
+        <div class="card-body" id="result-body" style="display:none">
+          <canvas id="analysis1" width="100%" height="30"></canvas>
+        </div>
+        <div class="card-body" id="result-body-loading">
+          <i class="fa fa-spinner" aria-hidden="true"></i>
+        </div>
+
+      </div>
+
     </div>
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
@@ -287,26 +319,12 @@
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="vendor/chart.js/Chart.min.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin.min.js"></script>
-    <!-- Custom scripts for this page-->
-    <!-- Toggle between fixed and static navbar-->
-    <script>
-      $('#toggleNavPosition').click(function () {
-        $('body').toggleClass('fixed-nav');
-        $('nav').toggleClass('fixed-top static-top');
-      });
-
-    </script>
-    <!-- Toggle between dark and light navbar-->
-    <script>
-      $('#toggleNavColor').click(function () {
-        $('nav').toggleClass('navbar-dark navbar-light');
-        $('nav').toggleClass('bg-dark bg-light');
-        $('body').toggleClass('bg-dark bg-light');
-      });
-
-    </script>
+    <!-- Custom scripts for this pen analysis-->
+    <script src="js/pen-collected-items-field.js"></script>
   </div>
 </body>
 

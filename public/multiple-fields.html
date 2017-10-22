@@ -12,6 +12,8 @@
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom fonts for this template-->
   <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- Page level plugin CSS-->
+  <link href="vendor/datatables/dataTables.bootstrap4.css" <!-- Custom styles for this template-->
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
 </head>
@@ -33,7 +35,13 @@
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Analysis">
-          <a class="nav-link" href="analysis.html">
+          <a class="nav-link" href="field.html">
+            <i class="fa fa-fw fa-line-chart"></i>
+            <span class="nav-link-text">Field</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Analysis">
+          <a class="nav-link" href="multiple-fields.html">
             <i class="fa fa-fw fa-line-chart"></i>
             <span class="nav-link-text">Analysis</span>
           </a>
@@ -235,21 +243,29 @@
         <li class="breadcrumb-item">
           <a href="#">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">Analysis</li>
+        <li class="breadcrumb-item active">Multiple Field Analysis</li>
       </ol>
 
       <div class="card mb-3">
         <div class="card-header">
-          <i class="fa "></i> Query</div>
+          <i class="fa fa-question-circle-o"></i> Query</div>
         <div class="card-body form-group">
-          <form id="query-field-location-range">
+          <form id="query-mult-field-location-range">
             <label for="x">
-              X:
-              <input class="form-control" id="field-location-x" type="number" min="0" max="200" value="175" required>
+              Upper Left X:
+              <input class="form-control" id="field-location-ul-x" type="number" min="0" max="200" value="125" required>
             </label>
             <label for="x">
-              Y:
-              <input class="form-control" id="field-location-y" type="number" min="0" max="100" value="75" required>
+              Upper Left Y:
+              <input class="form-control" id="field-location-ul-y" type="number" min="0" max="100" value="75" required>
+            </label>
+            <label for="x">
+              Bottom Right X:
+              <input class="form-control" id="field-location-br-x" type="number" min="0" max="200" value="175" required>
+            </label>
+            <label for="x">
+              Bottom Right Y:
+              <input class="form-control" id="field-location-br-y" type="number" min="0" max="100" value="65" required>
             </label>
             <label for="from">
               Start:
@@ -257,69 +273,120 @@
             </label>
             <label for="to">
               End:
-              <input class="form-control" type="date" id="query-range-to">
+              <input class="form-control" type="date" id="query-range-to" value="2015-10-24">
             </label>
-            <button type="button" class="btn btn-primary" id="queryFieldByLocationAndRange">Send</button>
+            <button type="button" class="btn btn-primary" id="queryMultipleFieldsByLocationsAndRange">Send</button>
           </form>
         </div>
       </div>
 
-      <div class="card mb-3" id="result-analysis1" style="display:none">
+      <div class="card mb-3" id="result-analysis2" style="display:none">
         <div class="card-header">
-          <i class="fa "></i> Visitors per Day</div>
+          <i class="fa fa-bar-chart"></i> Visitors per Zone</div>
         <div class="card-body" id="result-body" style="display:none">
-          <canvas id="analysis1" width="100%" height="30"></canvas>
+          <canvas id="analysis2" width="100%" height="30"></canvas>
         </div>
         <div class="card-body" id="result-body-loading">
           <i class="fa fa-spinner" aria-hidden="true"></i>
         </div>
-        
+
       </div>
 
-    </div>
-    <!-- /.container-fluid-->
-    <!-- /.content-wrapper-->
-    <footer class="sticky-footer">
-      <div class="container">
-        <div class="text-center">
-          <small>Copyright © Your Website 2017</small>
+      <div class="card mb-3" id="result-summary2" style="display:none">
+        <div class="card-header">
+          <i class="fa fa-globe"></i> Summary</div>
+        <div class="card-body" id="result-body">
+          <table class="table table-bordered" id="summaryTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Object Count</th>
+                <th>Visitor Count (not unique)</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+            </tbody>
+          </table>
         </div>
       </div>
-    </footer>
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-      <i class="fa fa-angle-up"></i>
-    </a>
-    <!-- Logout Modal-->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
+
+      <div class="card mb-3" id="result-table" style="display:none">
+        <div class="card-header">
+          <i class="fa fa-table"></i> Fields</div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="fieldTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Object Count</th>
+                  <th>Visitor Count</th>
+                  <th>Day with most Visitors</th>
+                  <th>Visitors</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>Id</th>
+                  <th>Object Count</th>
+                  <th>Visitor Count</th>
+                  <th>Day with most Visitors</th>
+                  <th>Visitors</th>
+                </tr>
+              </tfoot>
+              <tbody>
+
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
+      <!-- /.container-fluid-->
+      <!-- /.content-wrapper-->
+      <footer class="sticky-footer">
+        <div class="container">
+          <div class="text-center">
+            <small>Copyright © Your Website 2017</small>
+          </div>
+        </div>
+      </footer>
+      <!-- Scroll to Top Button-->
+      <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fa fa-angle-up"></i>
+      </a>
+      <!-- Logout Modal-->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+              <a class="btn btn-primary" href="login.html">Logout</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Bootstrap core JavaScript-->
+      <script src="vendor/jquery/jquery.min.js"></script>
+      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <!-- Core plugin JavaScript-->
+      <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+      <!-- Page level plugin JavaScript-->
+      <script src="vendor/chart.js/Chart.min.js"></script>
+      <script src="vendor/datatables/jquery.dataTables.js"></script>
+      <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+      <!-- Custom scripts for all pages-->
+      <script src="js/sb-admin.min.js"></script>
+      <!-- Custom scripts for this pen analysis-->
+      <script src="js/pen-collected-items-multiple-fields.js"></script>
     </div>
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    <!-- Page level plugin JavaScript-->
-    <script src="vendor/chart.js/Chart.min.js"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin.min.js"></script>
-    <!-- Custom scripts for this pen analysis-->
-    <script src="js/pen-collected-items.js"></script>
-  </div>
 </body>
 
 </html>

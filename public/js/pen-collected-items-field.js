@@ -25,12 +25,12 @@ function queryFieldByLocationAndRange() {
             "headers": {
                 "cache-control": "no-cache"
             }
-        }
-        $("#result-analysis1").toggle();
+        };
+        $("#result-analysis1").show();
 
         $.ajax(settings).done(function (response) {
-            $("#result-body-loading").toggle();
-            $("#result-body").toggle();
+            $("#result-body-loading").hide();
+            $("#result-body").show();
 
             ctx = document.getElementById("analysis1");
             myAnalysis = new Chart(ctx, getValuesForNewGraph(response));
@@ -91,7 +91,7 @@ function getValuesForNewGraph(result) {
 
     function parseResponse(result) {
         function getLabel(date) {
-            return date.getDate() + ". " + (date.getMonth() + 1) + " " + date.getYear();
+            return date.getDate() + ". " + (date.getMonth() + 1) + ". " + (date.getYear() + 1900);
         };
         function getData(act_date, visitors_elem) {
             date = new Date(visitors_elem.date);
@@ -147,6 +147,4 @@ function getValuesForNewGraph(result) {
 };
 
 
-//var ctx = document.getElementById("analysis1");
-//var myAnalysis = new Chart(ctx, getValuesForNewGraph());
 document.getElementById("queryFieldByLocationAndRange").onclick = queryFieldByLocationAndRange;
